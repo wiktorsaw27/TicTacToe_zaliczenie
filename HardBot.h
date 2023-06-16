@@ -4,8 +4,8 @@
 
 class HardBot : public Bot{
 public:
-    HardBot();
-    virtual void move();
+    HardBot(const std::string &name, Board &board, char sign);
+    virtual void MakeMove();
 };
 
 

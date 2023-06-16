@@ -1,12 +1,13 @@
 #ifndef PROBA_TICTACTOE_BOT_H
 #define PROBA_TICTACTOE_BOT_H
 #include "Board.h"
+#include "iostream"
+#include "Unit.h"
 
-class Bot {
-    Board & board;
+class Bot : public Unit{
 public:
-    Bot(Board &b);
-    virtual void move();
+    Bot(const std::string & name,Board &b, char sign);
+    virtual void MakeMove();
 };
 
 

@@ -2,14 +2,16 @@
 #define PROBA_TICTACTOE_GAME_H
 #include "Board.h"
 #include "Players.h"
+#include "Bot.h"
+#include "Unit.h"
 
 
 class Game {
     Board & board;
-    Players & player1;
-    Players & player2;
+    Unit *unit1;
+    Unit *unit2;
 public:
-    Game(Board & b, Players & p1, Players & p2);
+    Game(Board & b, Unit *u1, Unit *u2);
     std::string play();
 };
 

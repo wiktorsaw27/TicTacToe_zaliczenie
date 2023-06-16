@@ -1,22 +1,34 @@
 #include "Game.h"
 #include "iostream"
 
-Game::Game(Board &b, Players &p1, Players &p2) : board{b}, player1{p1}, player2{p2} {
+Game::Game(Board &b, Unit *u1, Unit *u2) : board{b}, unit1{u1}, unit2{u2}{
 
 }
 
+//Funkcja play zarządza rozgrywką, wykorzystując pętle z warunkiem sprawdzającym, czy któryś gracz już wygrał.
+//Inicjuje ruchy graczy oraz odpowiada za sprawdzanie czy wystąpił remis.
 std::string Game::play() {
+
+    int n=0;
     while (board.get_game_status() == Running){
-        if(!board.draw_check())
-            std::cout<< "Draw!";
+        n++;
 
-        player1.MakeMove();
+        unit1->MakeMove();
         if(board.get_game_status() == Finished)
-            return player1.getName();
+            return unit1->getName();
 
-        player2.MakeMove();
+        if(n==5)
+            return "No one win! It's a Draw!";
+
+        unit2->MakeMove();
         if(board.get_game_status() == Finished)
-            return player2.getName();
+            return unit2->getName();
+
     }
     return "Error!";
 }
+
+
+
+
+

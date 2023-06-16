@@ -5,6 +5,7 @@ Board::Board() {
     data = {'1','2','3','4','5','6','7','8','9'};
 }
 
+//wyświetl tablicę gry
 void Board::drawBoard() const {
     std::cout << "   |   |  " << "\n";
     std::cout << " " << data[0] << " | " << data[1] << " | " << data[2]  << "\n";
@@ -17,16 +18,19 @@ void Board::drawBoard() const {
     std::cout << "   |   |  " << "\n\n";
 }
 
+//sprawdza czy wybraliśmy pole z wyznaczonego przedziału
 bool Board::row_check(int row) const {
     if(row<=get_row_count() and row>=0)
         return true;
     return false;
 }
 
+//zmienia wartość na intiger
 int Board::get_row_count() const {
     return static_cast<int>(data.size());
 }
 
+//zwraca już zaakceptowaną liczbę komórki
 int Board::get_elem_count(int row) const {
     if(row_check(row))
         return data[row];
@@ -34,6 +38,7 @@ int Board::get_elem_count(int row) const {
     return 0;
 }
 
+//funkcja która sprawdza czy gra się skończyła(przeszukuję wszystkie wygrywające warianty)
 GameState Board::get_game_status() const {
 //Pion i poziom
     for(int i=0;i<9;i=i+3){
@@ -62,6 +67,7 @@ GameState Board::get_game_status() const {
 
 }
 
+//sprawdza legalność ruchu i go wykonuję
 bool Board::move(int num, char & player) {
     if( not row_check(num))
         return false;
@@ -69,21 +75,81 @@ bool Board::move(int num, char & player) {
         return false;
 
 
-    if (player == 'O')
+    if (player == 'o')
         data[num - 1] = 'o';
-    if(player == 'X')
+    if(player == 'x')
         data[num - 1] = 'x';
     return true;
 }
 
-bool Board::draw_check() {
-    int counte;
-    for(int i=0; i<8; ++i){
-        if (data[i]=='o' || data[i]=='x')
-            counte++;
-    }
-    if(counte == 8)
+//sprawdza czy ruch który chcemy wykonać jest legalny(funkcja stworzona wyłącznie dla HardBot)
+bool Board::is_possible_HB(int num) {
+    if( not row_check(num))
         return false;
-
+    if(data[num] == 'x' || data[num] == 'o')
+        return false;
     return true;
 }
+
+//Algorytm stworzony dla HardBot, wykonuję ruch wygrywający jeśli taki istnieje
+int Board::winner_move_HB(char s) {
+   //Poziom
+    if(data[0] == s && data[1] == s)
+        return 2;
+    if(data[0] == s && data[2] == s)
+        return 1;
+    if(data[1] == s && data[2] == s)
+        return 0;
+    if(data[3] == s && data[4] == s)
+        return 5;
+    if(data[3] == s && data[5] == s)
+        return 4;
+    if(data[4] == s && data[5] == s)
+        return 3;
+    if(data[6] == s && data[7] == s)
+        return 8;
+    if(data[6] == s && data[8] == s)
+        return 7;
+    if(data[7] == s && data[8] == s)
+        return 6;
+
+   //Pion
+    if(data[5] == s && data[8] == s)
+        return 2;
+    if(data[4] == s && data[7] == s)
+        return 1;
+    if(data[3] == s && data[6] == s)
+        return 0;
+    if(data[2] == s && data[8] == s)
+        return 5;
+    if(data[1] == s && data[7] == s)
+        return 4;
+    if(data[0] == s && data[6] == s)
+        return 3;
+    if(data[2] == s && data[5] == s)
+        return 8;
+    if(data[1] == s && data[4] == s)
+        return 7;
+    if(data[0] == s && data[3] == s)
+        return 6;
+
+   //Diagonala
+    if(data[0] == s && data[4] == s)
+        return 8;
+    if(data[0] == s && data[8] == s)
+        return 4;
+    if(data[4] == s && data[8] == s)
+        return 0;
+
+    if(data[4] == s && data[6] == s)
+        return 2;
+    if(data[2] == s && data[6] == s)
+        return 4;
+    if(data[2] == s && data[4] == s)
+        return 6;
+
+    return 10;
+}
+
+
+

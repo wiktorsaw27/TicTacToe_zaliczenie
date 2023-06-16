@@ -2,15 +2,14 @@
 #define PROBA_TICTACTOE_PLAYERS_H
 #include "string"
 #include "Board.h"
+#include "Unit.h"
 
 
-class Players {
-    Board & board;
-    const std::string name;
-    char sign;
+class Players : public Unit{
+
 public:
-    const std::string &getName() const;
-    Players(const std::string & n, Board & b, char sign);
+    //const std::string &getName() const;
+    Players(const std::string & name, Board & board, char sign);
     void MakeMove();
 };
 

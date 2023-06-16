@@ -4,8 +4,8 @@
 
 class EasyBot : public Bot{
 public:
-    EasyBot();
-    virtual void move();
+    EasyBot(const std::string &name, Board &board, char sign);
+    virtual void MakeMove();
 };
 
 
